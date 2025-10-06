@@ -1,0 +1,16 @@
+Quy trình tạo bảng trong Room
+
+1. Định nghĩa lớp @Entity
+Sử dụng annotation @Entity để đánh dấu một lớp là bảng cơ sở dữ liệu.
+Mỗi thuộc tính trong lớp là một cột trong bảng.
+Dùng @PrimaryKey để xác định khóa chính.
+Có thể tùy chỉnh tên bảng hoặc cột bằng cách sử dụng các thuộc tính của @Entity.
+
+2. Khai báo @Dao
+Tạo interface hoặc abstract class để định nghĩa các phương thức thao tác với cơ sở dữ liệu (CRUD: Create, Read, Update, Delete).
+
+3. Tạo lớp RoomDatabase
+Sử dụng @Database để đánh dấu lớp quản lý cơ sở dữ liệu.
+Chỉ định các lớp @Entity (bảng) và phiên bản của cơ sở dữ liệu.
+
+4. Room sẽ tự động tạo bảng khi khởi tạo cơ sở dữ liệu

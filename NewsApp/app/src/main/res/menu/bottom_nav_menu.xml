@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_new"
+        android:icon="@drawable/baseline_home_24"
+        android:title="News" />
+    <item
+        android:id="@+id/navigation_quotes"
+        android:title="Quotes"
+        android:icon="@drawable/quote_icon" />
+</menu>

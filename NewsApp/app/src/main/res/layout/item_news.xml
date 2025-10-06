@@ -1,0 +1,86 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="15dp"
+    app:cardBackgroundColor="#E8F5E9">
+
+    <!-- Sử dụng FrameLayout để dễ dàng đặt nút Bookmark ở góc trên cùng -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Nội dung của CardView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#B9D3EE">
+            <ImageView
+                android:id="@+id/newsImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="20dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_image" />
+            <!-- Tiêu đề tin tức -->
+            <TextView
+                android:id="@+id/newsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="27sp"
+                android:textColor="@android:color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:paddingBottom="4dp" />
+
+            <!-- Mô tả tin tức -->
+            <TextView
+                android:id="@+id/newsDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:paddingBottom="4dp" />
+
+            <!-- Nguồn tin tức -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/newsSource"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:paddingBottom="8dp" />
+
+                <!-- Hình ảnh tin tức -->
+
+                <ImageButton
+                    android:id="@+id/bookmarkButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_bookmark_0"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Nút Bookmark đặt ở góc trên cùng phải -->
+
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

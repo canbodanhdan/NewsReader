@@ -1,0 +1,35 @@
+Vai trò của AppDatabase:
+- Quản lý cơ sở dữ liệu: Là lớp chính đại diện cho cơ sở dữ liệu SQLite của ứng dụng.
+- Singleton: Đảm bảo chỉ tạo một instance duy nhất của cơ sở dữ liệu để sử dụng xuyên suốt ứng dụng.
+- Cung cấp DAO: Cho phép truy cập các DAO như ArticleDao và UserDao để thực hiện các thao tác CRUD trên bảng.
+
+Vai trò của ArticleDao:
+- Xử lý bài viết: Chứa các phương thức để thực hiện các thao tác liên quan đến bảng articles (thêm, sửa, xóa, truy vấn bài viết).
+- Giao tiếp với cơ sở dữ liệu: Chịu trách nhiệm thực hiện các lệnh SQL (query) để thao tác với bảng Article.
+
+Vai trò của UserDao:
+- Xử lý người dùng: Cung cấp các phương thức để thực hiện các thao tác với bảng users (đăng ký, đăng nhập, cập nhật trạng thái đăng nhập).
+- Giao tiếp với cơ sở dữ liệu: Thực hiện các lệnh SQL để kiểm tra, thêm, hoặc cập nhật thông tin người dùng trong bảng User.
+
+Vai trò của User:
+- Mô hình dữ liệu người dùng: Đại diện cho bảng users trong cơ sở dữ liệu, chứa các thông tin của người dùng như id, email, password, và trạng thái đăng nhập (isLoggedIn).
+- Entity của Room: Được Room sử dụng để ánh xạ dữ liệu từ bảng users thành đối tượng Java, giúp dễ dàng thao tác.
+- Trạng thái đăng nhập: Lưu trữ thông tin người dùng có đang đăng nhập hay không, hỗ trợ các chức năng như đăng nhập, đăng ký.
+
+Vai trò của Article:
+- Mô hình dữ liệu bài viết: Đại diện cho bảng articles trong cơ sở dữ liệu, chứa thông tin về bài viết như id, title, url, và trạng thái lưu lịch sử.
+- Entity của Room: Được Room sử dụng để ánh xạ dữ liệu từ bảng articles thành đối tượng Java.
+- Quản lý lịch sử: Có cột isHistory để đánh dấu bài viết đã được lưu vào lịch sử của người dùng, giúp hỗ trợ tính năng lịch sử bài viết.
+
++--------------------+
+|    AppDatabase     |
+|--------------------|
+| - User (Entity)    | <--- ánh xạ thành bảng `users`
+| - Article (Entity) | <--- ánh xạ thành bảng `articles`
+| - UserDao          | <--- quản lý truy vấn bảng `users` , Là cầu nối giữa AppDatabase và bảng users.
+| - ArticleDao       | <--- quản lý truy vấn bảng `articles`, Là cầu nối giữa AppDatabase và bảng articles.
++--------------------+
+        |
+        |
++--------------------+
+| User & Article     | <--- Các đối tượng Java (model dữ liệu)

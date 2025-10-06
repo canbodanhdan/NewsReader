@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/navigation_new">
+
+    <fragment
+        android:id="@+id/navigation_new"
+        android:name="vn.edu.usth.newsreader.news.NewsFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/navigation_quotes"
+        android:name="vn.edu.usth.newsreader.quotes.QuotesFragment"
+        android:label="Quotes" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="vn.edu.usth.newsreader.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="vn.edu.usth.newsreader.bookmark.BookmarkFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_bookmark" />
+
+</navigation>
