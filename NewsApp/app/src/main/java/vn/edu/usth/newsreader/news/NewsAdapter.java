@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 import vn.edu.usth.newsreader.R;
 import vn.edu.usth.newsreader.bookmark.BookmarkManager;
 import vn.edu.usth.newsreader.history.HistoryManager;
-import vn.edu.usth.newsreader.db.AppDatabase;
+import vn.edu.usth.newsreader.storage.Prefs;
 
 // NewsAdapter là lớp Adapter để quản lý và hiển thị danh sách các bài báo (articles) trong RecyclerView
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
@@ -87,23 +87,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         );
 
 
-        // Sử dụng background thread để truy vấn UserDao
+        // Sử dụng background thread để truy vấn SharedPreferences
         Executors.newSingleThreadExecutor().execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(context);
-            int userId = db.userDao().getLoggedInUser().getId(); // Truy vấn trong background thread
-
-            // Xử lý bookmark
+            int userIdLocal = Prefs.getLoggedInUserId(context);
             holder.bookmarkButton.setOnClickListener(v -> {
-                BookmarkManager bookmarkManager = new BookmarkManager(AppDatabase.getInstance(context), userId);
-
                 Executors.newSingleThreadExecutor().execute(() -> {
-                    // Thay đổi trạng thái bookmark trong cơ sở dữ liệu
-                    bookmarkManager.toggleBookmark(article);
-
-                    // Cập nhật trạng thái bài viết
+                    Prefs.toggleBookmark(context, userIdLocal, article);
                     article.setBookmarked(!article.isBookmarked());
-
-                    // Cập nhật giao diện trên Main Thread
                     new Handler(Looper.getMainLooper()).post(() -> {
                         holder.bookmarkButton.setImageResource(
                                 article.isBookmarked() ? R.drawable.baseline_bookmark_1 : R.drawable.baseline_bookmark_0
@@ -116,11 +106,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         // Xử lý khi người dùng nhấn vào item bài báo
         holder.itemView.setOnClickListener(v -> {
             Executors.newSingleThreadExecutor().execute(() -> {
-                AppDatabase db = AppDatabase.getInstance(context);
-                int userId = db.userDao().getLoggedInUser().getId();
-
-                HistoryManager historyManager = new HistoryManager(context, userId);
-                historyManager.addToHistory(article, userId);
+                int userIdLocal = Prefs.getLoggedInUserId(context);
+                HistoryManager historyManager = new HistoryManager(context, userIdLocal);
+                historyManager.addToHistory(article, userIdLocal);
 
                 // Chuyển sang giao diện chi tiết trên main thread
                 new android.os.Handler(Looper.getMainLooper()).post(() -> {

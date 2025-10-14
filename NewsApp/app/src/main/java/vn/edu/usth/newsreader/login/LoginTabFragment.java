@@ -18,8 +18,7 @@ import java.util.concurrent.Executors;
 
 import vn.edu.usth.newsreader.MainActivity;
 import vn.edu.usth.newsreader.R;
-import vn.edu.usth.newsreader.db.AppDatabase;
-import vn.edu.usth.newsreader.db.UserDao;
+import vn.edu.usth.newsreader.storage.Prefs;
 
 public class LoginTabFragment extends Fragment {
 
@@ -44,23 +43,15 @@ public class LoginTabFragment extends Fragment {
 
             if (!email.isEmpty() && !password.isEmpty()) {
                 Executors.newSingleThreadExecutor().execute(() -> {
-                    // Lấy UserDao từ AppDatabase
-                    UserDao userDao = AppDatabase.getInstance(requireContext()).userDao();
-                    User user = userDao.login(email, password);
-
+                    User user = Prefs.login(requireContext(), email, password);
                     if (user != null) {
-                        user.setLoggedIn(true); // Đặt trạng thái loggedIn thành true
-                        userDao.updateUser(user); // Cập nhật lại trạng thái đăng nhập trong database
-
-                        // Chuyển hướng về MainActivity trên luồng chính
                         requireActivity().runOnUiThread(() -> {
                             Toast.makeText(requireContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
                             startActivity(intent);
-                            requireActivity().finish(); // Đóng Activity chứa Fragment này
+                            requireActivity().finish();
                         });
                     } else {
-                        // Thông báo lỗi đăng nhập sai
                         requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show());
                     }
                 });

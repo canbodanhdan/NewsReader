@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import vn.edu.usth.newsreader.R;
-import vn.edu.usth.newsreader.db.AppDatabase;
+import vn.edu.usth.newsreader.storage.Prefs;
 import vn.edu.usth.newsreader.news.Article;
 import vn.edu.usth.newsreader.news.NewsAdapter;
 
@@ -36,12 +36,8 @@ public class BookmarkFragment extends Fragment {
 
         // Lấy dữ liệu từ cơ sở dữ liệu trong background thread
         Executors.newSingleThreadExecutor().execute(() -> {
-            // Lấy userId từ UserDao
-            AppDatabase database = AppDatabase.getInstance(requireContext());
-            int userId = database.userDao().getLoggedInUser().getId();
-
-            // Lấy danh sách bài viết được bookmark
-            List<Article> bookmarkedArticles = database.articleDao().getBookmarkedArticles(userId);
+            int userId = Prefs.getLoggedInUserId(requireContext());
+            List<Article> bookmarkedArticles = Prefs.getBookmarkedArticles(requireContext(), userId);
 
             // Cập nhật giao diện trên Main Thread
             new Handler(Looper.getMainLooper()).post(() -> {

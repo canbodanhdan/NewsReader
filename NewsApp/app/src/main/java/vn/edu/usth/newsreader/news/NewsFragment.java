@@ -25,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.usth.newsreader.R;
 import vn.edu.usth.newsreader.config.ApiConfig;
-import vn.edu.usth.newsreader.db.AppDatabase;
+import vn.edu.usth.newsreader.storage.Prefs;
 import vn.edu.usth.newsreader.login.User;
 
 public class NewsFragment extends Fragment {
@@ -47,7 +47,7 @@ public class NewsFragment extends Fragment {
 
         // ĐOẠN CODE MỚI THAY THẾ 4 DÒNG TRUY VẤN DATABASE TRÊN MAIN THREAD
         Executors.newSingleThreadExecutor().execute(() -> {
-            User loggedInUser = AppDatabase.getInstance(requireContext()).userDao().getLoggedInUser();
+            User loggedInUser = Prefs.getLoggedInUser(requireContext());
             if (loggedInUser != null) {
                 int userId = loggedInUser.getId();
                 new Handler(Looper.getMainLooper()).post(() -> {
@@ -66,6 +66,14 @@ public class NewsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void refreshNow() {
+        // Scroll lên đầu danh sách trước khi refresh
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+        }
+        fetchNews();
     }
 
     private void fetchNews() {
@@ -173,37 +181,20 @@ public class NewsFragment extends Fragment {
         
         // Cập nhật trạng thái bookmark
         Executors.newSingleThreadExecutor().execute(() -> {
-            try {
-                AppDatabase database = AppDatabase.getInstance(requireContext());
-                User loggedInUser = database.userDao().getLoggedInUser();
-
-                if (loggedInUser != null) {
-                    int userId = loggedInUser.getId();
-
-                    for (Article article : articles) {
-                        Article dbArticle = database.articleDao().getArticleByUrl(article.getUrl(), userId);
-                        if (dbArticle != null) {
-                            article.setBookmarked(dbArticle.isBookmarked());
-                        }
-                    }
-
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        newsAdapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    });
-                } else {
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        newsAdapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    });
-                }
-            } catch (Exception e) {
-                Log.e("NewsFragment", "Database error: " + e.getMessage());
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    newsAdapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                });
+            User u = Prefs.getLoggedInUser(requireContext());
+            int uid = u != null ? u.getId() : -1;
+            for (Article article : articles) {
+                boolean bookmarked = uid != -1 && Prefs.isBookmarked(requireContext(), uid, article.getUrl());
+                article.setBookmarked(bookmarked);
             }
+            new Handler(Looper.getMainLooper()).post(() -> {
+                newsAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                // Đảm bảo scroll lên đầu sau khi cập nhật tin tức
+                if (recyclerView != null) {
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            });
         });
     }
 

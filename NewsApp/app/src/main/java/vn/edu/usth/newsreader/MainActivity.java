@@ -1,7 +1,6 @@
 package vn.edu.usth.newsreader;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -19,29 +17,30 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.fragment.app.Fragment;
 
 import java.util.concurrent.Executors;
 
-import vn.edu.usth.newsreader.db.AppDatabase;
+import vn.edu.usth.newsreader.storage.Prefs;
 import vn.edu.usth.newsreader.login.LoginActivity;
 import vn.edu.usth.newsreader.login.User;
-import vn.edu.usth.newsreader.db.UserDao;
+import vn.edu.usth.newsreader.dialog.FeedbackDialog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FeedbackDialog.FeedbackListener {
 
     private DrawerLayout drawerLayout;
     private NavController navController;
-    private static final int REQUEST_CALL_PERMISSION = 1;
 
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        // Truy vấn người dùng hiện tại từ Room Database
+        // Truy vấn người dùng hiện tại từ SharedPreferences
         Executors.newSingleThreadExecutor().execute(() -> {
-            UserDao userDao = AppDatabase.getInstance(this).userDao();
-            User currentUser = userDao.getLoggedInUser();
+            User currentUser = Prefs.getLoggedInUser(this);
 
             if (currentUser == null || !currentUser.isLoggedIn()) {
                 // Chuyển hướng về LoginActivity nếu chưa đăng nhập
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         // Thiết lập Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("NewsApp");
 
         // Thiết lập DrawerLayout và NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_tin_moi_nhat) {
                 navController.popBackStack(R.id.navigation_new, false); // Điều hướng đến HomeFragment nếu đang ở fragment khác
             } else if (itemId == R.id.nav_gui_y_kien) {
-                dialPhoneNumber("5554");
+                showFeedbackDialog();
             } else if (itemId == R.id.nav_thoat) {
                 signOutUser();
             } else if (itemId == R.id.nav_lich_su) {
@@ -114,9 +114,8 @@ public class MainActivity extends AppCompatActivity {
      * Nếu chưa đăng nhập, chuyển hướng tới màn hình LoginActivity.
      */
     private void checkIfUserLoggedIn() {
-        AppDatabase db = AppDatabase.getInstance(this);
         Executors.newSingleThreadExecutor().execute(() -> {
-            User currentUser = db.userDao().getLoggedInUser();
+            User currentUser = Prefs.getLoggedInUser(this);
             if (currentUser == null) {
                 runOnUiThread(() -> {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -134,15 +133,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void signOutUser() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            UserDao userDao = AppDatabase.getInstance(this).userDao();
-            User currentUser = userDao.getLoggedInUser();
-
-            if (currentUser != null) {
-                currentUser.setLoggedIn(false); // Cập nhật trạng thái đăng xuất
-                userDao.updateUser(currentUser); // Lưu vào cơ sở dữ liệu
-            }
-
-            // Chuyển hướng về LoginActivity
+            Prefs.logout(this);
             runOnUiThread(() -> {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -154,19 +145,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Gọi một số điện thoại.
-     *
-     * @param phoneNumber Số điện thoại cần gọi.
+     * Hiển thị dialog feedback.
      */
-    private void dialPhoneNumber(String phoneNumber) {
-        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+    private void showFeedbackDialog() {
+        FeedbackDialog feedbackDialog = FeedbackDialog.newInstance();
+        feedbackDialog.show(getSupportFragmentManager(), "FeedbackDialog");
+    }
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            startActivity(callIntent);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
-        }
+    @Override
+    public void onFeedbackSent(String feedback, int rating) {
+        // Có thể thêm logic xử lý sau khi gửi feedback thành công
+        Log.d("MainActivity", "Feedback sent: " + feedback + ", Rating: " + rating);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        return true;
     }
 
     @Override
@@ -174,6 +170,16 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
             return true;
+        } else if (item.getItemId() == R.id.action_refresh) {
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment);
+            if (navHostFragment != null) {
+                Fragment current = navHostFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+                if (current instanceof vn.edu.usth.newsreader.news.NewsFragment) {
+                    ((vn.edu.usth.newsreader.news.NewsFragment) current).refreshNow();
+                    return true;
+                }
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -187,15 +193,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CALL_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                dialPhoneNumber("0915331999");
-            } else {
-                Toast.makeText(this, "Quyền thực hiện cuộc gọi đã bị từ chối", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import vn.edu.usth.newsreader.R;
-import vn.edu.usth.newsreader.db.AppDatabase;
+import vn.edu.usth.newsreader.storage.Prefs;
 import vn.edu.usth.newsreader.news.Article;
 import vn.edu.usth.newsreader.news.NewsAdapter;
 
@@ -39,7 +39,7 @@ public class HistoryFragment extends Fragment {
         // Gắn adapter vào RecyclerView
         // Trả về View của Fragment
         Executors.newSingleThreadExecutor().execute(() -> {
-            int userId = AppDatabase.getInstance(requireContext()).userDao().getLoggedInUser().getId();
+            int userId = Prefs.getLoggedInUserId(requireContext());
             List<Article> historyArticles = new HistoryManager(requireContext(), userId).getHistoryArticles();
             requireActivity().runOnUiThread(() -> {
                 adapter = new NewsAdapter(requireContext(), historyArticles, userId);

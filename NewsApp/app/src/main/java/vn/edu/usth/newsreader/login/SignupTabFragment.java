@@ -14,8 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import vn.edu.usth.newsreader.R;
-import vn.edu.usth.newsreader.db.AppDatabase;
-import vn.edu.usth.newsreader.db.UserDao;
+import vn.edu.usth.newsreader.storage.Prefs;
 
 public class SignupTabFragment extends Fragment {
 
@@ -41,15 +40,8 @@ public class SignupTabFragment extends Fragment {
 
             if (!email.isEmpty() && !password.isEmpty()) {
                 new Thread(() -> {
-                    // Lấy instance của UserDao
-                    UserDao userDao = AppDatabase.getInstance(requireContext()).userDao();
-                    if (!userDao.checkUserExists(email)) {
-                        // Chèn user mới vào cơ sở dữ liệu
-                        userDao.insertUser(new User(email, password, false)); // false cho trạng thái chưa đăng nhập
-                        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show());
-                    } else {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "User already exists", Toast.LENGTH_SHORT).show());
-                    }
+                    boolean ok = Prefs.register(requireContext(), email, password);
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), ok ? "Registration successful" : "User already exists", Toast.LENGTH_SHORT).show());
                 }).start();
             } else {
                 Toast.makeText(requireContext(), "Please enter complete information", Toast.LENGTH_SHORT).show();

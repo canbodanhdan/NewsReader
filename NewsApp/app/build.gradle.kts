@@ -45,8 +45,6 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.core.ktx)
-    implementation(libs.room.common)
-    implementation(libs.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -77,8 +75,6 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.11.0")
     implementation("androidx.cardview:cardview:1.0.0")
 
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // Room removed as per project requirement: no local database
 
 }
