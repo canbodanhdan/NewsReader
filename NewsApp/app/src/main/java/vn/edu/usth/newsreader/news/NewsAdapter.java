@@ -21,12 +21,13 @@ import vn.edu.usth.newsreader.bookmark.BookmarkManager;
 import vn.edu.usth.newsreader.history.HistoryManager;
 import vn.edu.usth.newsreader.storage.Prefs;
 
-// NewsAdapter là lớp Adapter để quản lý và hiển thị danh sách các bài báo (articles) trong RecyclerView
+//NewsAdapter is an adapter class that manages and displays a list of news articles in a RecyclerView.
+
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private final Context context; // Ngữ cảnh để làm việc với các thành phần của giao diện và gọi Intent
-    private List<Article> articles; // Danh sách các bài báo sẽ được hiển thị trong RecyclerView
-    private final HistoryManager historyManager; /** Quản lý lịch sử, dùng để lưu lại các bài báo đã xem*/
+    private final Context context; // Context for accessing UI components and launching intents
+    private List<Article> articles; // List of articles to be displayed in RecyclerView
+    private final HistoryManager historyManager;// Manages browsing history (articles viewed)
     public int userId;
 
     // Constructor
@@ -34,23 +35,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         this.context = context;
         this.articles = articles;
         this.userId = userId;
-        this.historyManager = new HistoryManager(context, userId); // Khởi tạo đối tượng quản lý lịch sử
+        this.historyManager = new HistoryManager(context, userId); // Initialize the history manager
     }
 
-    // Lớp con NewsViewHolder dùng để liên kết các phần tử giao diện của mỗi item trong danh sách bài báo
+    //ViewHolder class that binds the UI components of each article item.
+
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView description;
         ImageView imageView;
-        ImageButton bookmarkButton; // Thêm nút bookmark
+        ImageButton bookmarkButton; // Bookmark button
 
-        // Constructor của NewsViewHolder, liên kết các thành phần giao diện từ item_news.xml
+        // Constructor: binds UI components from item_news.xml
         public NewsViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.newsTitle);
             description = itemView.findViewById(R.id.newsDescription);
             imageView = itemView.findViewById(R.id.newsImage);
-            bookmarkButton = itemView.findViewById(R.id.bookmarkButton); // Gắn nút bookmark
+            bookmarkButton = itemView.findViewById(R.id.bookmarkButton); // Bookmark button
 
         }
     }
@@ -58,7 +60,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Khởi tạo giao diện cho từng item bài báo từ file item_news.xml
+        // Inflate the layout for each article item from item_news.xml
         View view = LayoutInflater.from(context).inflate(R.layout.item_news, parent, false);
         return new NewsViewHolder(view);
     }
@@ -81,13 +83,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             holder.imageView.setImageResource(R.drawable.default_image);
         }
 
-        // Cập nhật biểu tượng bookmark dựa trên trạng thái `isBookmarked`
+        // Update the bookmark icon based on the `isBookmarked` state
         holder.bookmarkButton.setImageResource(
                 article.isBookmarked() ? R.drawable.baseline_bookmark_1 : R.drawable.baseline_bookmark_0
         );
 
 
-        // Sử dụng background thread để truy vấn SharedPreferences
+        // Handle bookmark toggling in a background thread
         Executors.newSingleThreadExecutor().execute(() -> {
             int userIdLocal = Prefs.getLoggedInUserId(context);
             holder.bookmarkButton.setOnClickListener(v -> {
@@ -103,14 +105,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             });
         });
 
-        // Xử lý khi người dùng nhấn vào item bài báo
+        // Handle click events on article items
         holder.itemView.setOnClickListener(v -> {
             Executors.newSingleThreadExecutor().execute(() -> {
                 int userIdLocal = Prefs.getLoggedInUserId(context);
                 HistoryManager historyManager = new HistoryManager(context, userIdLocal);
                 historyManager.addToHistory(article, userIdLocal);
 
-                // Chuyển sang giao diện chi tiết trên main thread
+                // Navigate to the article detail screen on the main thread
                 new android.os.Handler(Looper.getMainLooper()).post(() -> {
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra("url", article.getUrl());
@@ -125,7 +127,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public int getItemCount() {
-//         Trả về tổng số bài báo trong danh sách
+//         // Return the total number of articles in the list
         return articles.size();
     }
 }

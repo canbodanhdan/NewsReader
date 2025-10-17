@@ -7,18 +7,19 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class NewsApiClient {
 
-    // Sử dụng NewsAPI.org với API key mới
+    // Using NewsAPI.org with the new API key
     private static final String BASE_URL = "https://newsapi.org/v2/";
-    
-    // Hoặc sử dụng API thay thế miễn phí
+
+    // Or use an alternative free API
     // private static final String BASE_URL = "https://api.currentsapi.services/v1/";
     
     private static Retrofit retrofit = null;
 
-    // Phương thức trả về instance của Retrofit được khởi tạo
+    //Returns a singleton instance of Retrofit.
+
     public static Retrofit getInstance() {
         if (retrofit == null) {
-            // Tạo OkHttpClient với logging và User-Agent
+            // Create OkHttpClient with logging and a custom User-Agent header
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             

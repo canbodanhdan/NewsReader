@@ -7,9 +7,9 @@ public class Article {
     private String description;
     private String url;
     private String urlToImage;
-    private boolean isHistory;    // Trường thêm để quản lý lịch sử
-    private int userId;     // Trường thêm để liên kết với người dùng
-    private boolean isBookmarked; // Dùng cho Bookmark
+    private boolean isHistory;    // Field added to manage reading history
+    private int userId;     // Field added to link with a user
+    private boolean isBookmarked; // Used for Bookmark feature
     // Getters và Setters
     public int getId() {
         return id;
