@@ -34,12 +34,12 @@ public class BookmarkFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Lấy dữ liệu từ cơ sở dữ liệu trong background thread
+        // Fetch data from the database in a background thread
         Executors.newSingleThreadExecutor().execute(() -> {
             int userId = Prefs.getLoggedInUserId(requireContext());
             List<Article> bookmarkedArticles = Prefs.getBookmarkedArticles(requireContext(), userId);
 
-            // Cập nhật giao diện trên Main Thread
+            // Update the UI on the Main Thread
             new Handler(Looper.getMainLooper()).post(() -> {
                 adapter = new NewsAdapter(requireContext(), bookmarkedArticles, userId);
                 recyclerView.setAdapter(adapter);

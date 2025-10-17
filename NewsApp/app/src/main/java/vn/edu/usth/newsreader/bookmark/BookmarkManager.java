@@ -17,12 +17,12 @@ public class BookmarkManager {
         this.userId = userId;
     }
 
-    // Lấy danh sách các bài viết được bookmark
+    // Get the list of bookmarked articles
     public List<Article> getBookmarkedArticles() {
         return Prefs.getBookmarkedArticles(context, userId);
     }
 
-    // Thêm hoặc xóa bài viết khỏi bookmark
+    // Add or remove an article from bookmarks
     public void toggleBookmark(Article article) {
         Executors.newSingleThreadExecutor().execute(() -> {
             Prefs.toggleBookmark(context, userId, article);
