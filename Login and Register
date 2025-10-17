@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            // Kiểm tra và đăng ký người dùng mới thông qua SharedPreferences
+            // Check and register new users via SharedPreferences
 
             if (!email.isEmpty() && !password.isEmpty()) {
                 new Thread(() -> {
@@ -137,15 +137,15 @@ public class SignupTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Gắn giao diện cho Fragment
+        // Attach interface to Fragment
         View view = inflater.inflate(R.layout.fragment_signup_tab, container, false);
 
-        // Ánh xạ các thành phần UI
+        // Mapping UI components
         emailEditText = view.findViewById(R.id.signup_email);
         passwordEditText = view.findViewById(R.id.signup_password);
         signup_button = view.findViewById(R.id.signup_button);
 
-        // Thiết lập sự kiện cho nút đăng ký
+        // Set up an event for the subscribe button
         signup_button.setOnClickListener(v -> {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -159,6 +159,7 @@ public class SignupTabFragment extends Fragment {
                 Toast.makeText(requireContext(), "Please enter complete information", Toast.LENGTH_SHORT).show();
             }
         });
+
 #USER
 
 package vn.edu.usth.newsreader.login;
