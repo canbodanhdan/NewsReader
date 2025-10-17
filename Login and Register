@@ -1,0 +1,161 @@
+#LOGINACTIVITY
+
+package vn.edu.usth.newsreader.login;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.os.Bundle;
+
+import com.google.android.material.tabs.TabLayout;
+
+import vn.edu.usth.newsreader.R;
+
+public class LoginActivity extends AppCompatActivity {
+
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private ViewPagerAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager2 = findViewById(R.id.view_pager);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Login"));
+        tabLayout.addTab(tabLayout.newTab().setText("Signup"));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        adapter = new ViewPagerAdapter(fragmentManager, getLifecycle());
+        viewPager2.setAdapter(adapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+    }
+}
+
+#REGISTERACTIVITY
+
+package vn.edu.usth.newsreader.login;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+import vn.edu.usth.newsreader.R;
+import vn.edu.usth.newsreader.storage.Prefs;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    private EditText emailEditText, passwordEditText;
+    private Button registerButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        registerButton = findViewById(R.id.registerButton);
+
+        registerButton.setOnClickListener(v -> {
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+
+            // Kiểm tra và đăng ký người dùng mới thông qua SharedPreferences
+
+            if (!email.isEmpty() && !password.isEmpty()) {
+                new Thread(() -> {
+                    boolean ok = Prefs.register(getApplicationContext(), email, password);
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, ok ? "Đăng ký thành công" : "Người dùng đã tồn tại", Toast.LENGTH_SHORT).show();
+                        if (ok) finish();
+                    });
+                }).start();
+            } else {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+#SIGNUPTABFRAGMENT
+
+package vn.edu.usth.newsreader.login;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
+
+import vn.edu.usth.newsreader.R;
+import vn.edu.usth.newsreader.storage.Prefs;
+
+public class SignupTabFragment extends Fragment {
+
+    private EditText emailEditText, passwordEditText;
+    private Button signup_button;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Gắn giao diện cho Fragment
+        View view = inflater.inflate(R.layout.fragment_signup_tab, container, false);
+
+        // Ánh xạ các thành phần UI
+        emailEditText = view.findViewById(R.id.signup_email);
+        passwordEditText = view.findViewById(R.id.signup_password);
+        signup_button = view.findViewById(R.id.signup_button);
+
+        // Thiết lập sự kiện cho nút đăng ký
+        signup_button.setOnClickListener(v -> {
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+
+            if (!email.isEmpty() && !password.isEmpty()) {
+                new Thread(() -> {
+                    boolean ok = Prefs.register(requireContext(), email, password);
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), ok ? "Registration successful" : "User already exists", Toast.LENGTH_SHORT).show());
+                }).start();
+            } else {
+                Toast.makeText(requireContext(), "Please enter complete information", Toast.LENGTH_SHORT).show();
+            }
+        });
