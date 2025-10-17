@@ -6,7 +6,7 @@ import retrofit2.http.Query;
 
 public interface NewsApiService {
 
-    // Endpoint for NewsAPI.org — fetches top headlines from specific sources.
+    // Endpoint for NewsAPI.org — fetches top headlines from specific sources
     @GET("top-headlines")
     Call<NewsResponse> getTopHeadlines(
             @Query("sources") String sources,
