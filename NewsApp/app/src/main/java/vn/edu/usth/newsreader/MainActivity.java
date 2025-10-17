@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Kiểm tra người dùng đã đăng nhập
+        // Check if user is logged in
         checkIfUserLoggedIn();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Thiết lập Toolbar
+        // Setup Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("NewsApp");
 
-        // Thiết lập DrawerLayout và NavigationView
+        // Setup DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
