@@ -45,7 +45,7 @@ public class NewsFragment extends Fragment {
 
         articles = new ArrayList<>();
 
-        // ĐOẠN CODE MỚI THAY THẾ 4 DÒNG TRUY VẤN DATABASE TRÊN MAIN THREAD
+        // Use a background thread instead of querying the database on the main thread
         Executors.newSingleThreadExecutor().execute(() -> {
             User loggedInUser = Prefs.getLoggedInUser(requireContext());
             if (loggedInUser != null) {
@@ -60,7 +60,7 @@ public class NewsFragment extends Fragment {
                 });
             } else {
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    Toast.makeText(requireContext(), "Chưa có user đăng nhập!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "No user logged in!", Toast.LENGTH_LONG).show();
                 });
             }
         });
@@ -69,7 +69,7 @@ public class NewsFragment extends Fragment {
     }
 
     public void refreshNow() {
-        // Scroll lên đầu danh sách trước khi refresh
+        // Scroll to the top before refreshing
         if (recyclerView != null) {
             recyclerView.smoothScrollToPosition(0);
         }
@@ -77,11 +77,11 @@ public class NewsFragment extends Fragment {
     }
 
     private void fetchNews() {
-        // Kiểm tra API key
+        // Validate API key
         if (ApiConfig.API_KEY == null || ApiConfig.API_KEY.isEmpty()) {
 
             Toast.makeText(requireContext(),
-                    "Vui lòng cập nhật API key trong ApiConfig.java",
+                    "Please update the API key in ApiConfig.java",
                     Toast.LENGTH_LONG).show();
             swipeRefreshLayout.setRefreshing(false);
             return;
@@ -91,12 +91,12 @@ public class NewsFragment extends Fragment {
 
         NewsApiService apiService = NewsApiClient.getInstance().create(NewsApiService.class);
         
-        // Lấy tin từ nhiều nguồn khác nhau và trộn lẫn
+        // Fetch from multiple sources and mix
         fetchNewsFromMultipleSources(apiService);
     }
 
     private void fetchNewsFromMultipleSources(NewsApiService apiService) {
-        // Lấy danh sách nguồn tin
+        // Get the list of sources
         String[] sources = getRandomSourcesArray();
         java.util.List<Article> allArticles = new java.util.ArrayList<>();
         final int[] completedRequests = {0};
@@ -119,7 +119,7 @@ public class NewsFragment extends Fragment {
                     
                     completedRequests[0]++;
                     if (completedRequests[0] == totalRequests) {
-                        // Tất cả requests đã hoàn thành, trộn lẫn và hiển thị
+                        // All requests completed, mix and display
                         mixAndDisplayArticles(allArticles);
                     }
                 }
@@ -129,7 +129,7 @@ public class NewsFragment extends Fragment {
                     Log.w("NewsFragment", "Failed to load from " + source + " - Error: " + t.getMessage());
                     completedRequests[0]++;
                     if (completedRequests[0] == totalRequests) {
-                        // Tất cả requests đã hoàn thành, trộn lẫn và hiển thị
+                        // All requests completed, mix and display
                         mixAndDisplayArticles(allArticles);
                     }
                 }
@@ -138,15 +138,15 @@ public class NewsFragment extends Fragment {
     }
 
     private String[] getRandomSourcesArray() {
-        // Danh sách các nguồn tin tức ổn định và khả dụng
+        // Reliable and available news sources
         String[] reliableSources = {
             "techcrunch", "cnn", "the-verge", "wired", "ars-technica",
             "engadget", "mashable", "recode", "the-next-web", "venturebeat"
         };
         
-        // Chọn ngẫu nhiên 3-4 nguồn
+        // Randomly choose 3-4 sources
         java.util.Random random = new java.util.Random();
-        int numSources = 3 + random.nextInt(2); // 3-4 nguồn
+        int numSources = 3 + random.nextInt(2); // 3-4 sources
         
         java.util.List<String> selectedSources = new java.util.ArrayList<>();
         for (int i = 0; i < numSources; i++) {
@@ -161,15 +161,15 @@ public class NewsFragment extends Fragment {
 
     private void mixAndDisplayArticles(java.util.List<Article> allArticles) {
         if (allArticles.isEmpty()) {
-            Toast.makeText(requireContext(), "Không thể tải tin tức từ bất kỳ nguồn nào", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Unable to load news from any source", Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
             return;
         }
         
-        // Trộn lẫn các bài viết
+        // Shuffle articles
         java.util.Collections.shuffle(allArticles);
         
-        // Giới hạn số lượng bài viết hiển thị (tối đa 20)
+        // Limit displayed articles (max 20)
         if (allArticles.size() > 20) {
             allArticles = allArticles.subList(0, 20);
         }
@@ -179,7 +179,7 @@ public class NewsFragment extends Fragment {
         
         Log.d("NewsFragment", "Displaying " + articles.size() + " mixed articles from multiple sources");
         
-        // Cập nhật trạng thái bookmark
+        // Update bookmark state
         Executors.newSingleThreadExecutor().execute(() -> {
             User u = Prefs.getLoggedInUser(requireContext());
             int uid = u != null ? u.getId() : -1;
@@ -190,7 +190,7 @@ public class NewsFragment extends Fragment {
             new Handler(Looper.getMainLooper()).post(() -> {
                 newsAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
-                // Đảm bảo scroll lên đầu sau khi cập nhật tin tức
+                // Ensure scroll to top after updating
                 if (recyclerView != null) {
                     recyclerView.smoothScrollToPosition(0);
                 }

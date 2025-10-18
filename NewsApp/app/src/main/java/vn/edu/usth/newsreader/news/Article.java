@@ -7,10 +7,10 @@ public class Article {
     private String description;
     private String url;
     private String urlToImage;
-    private boolean isHistory;    // Trường thêm để quản lý lịch sử
-    private int userId;     // Trường thêm để liên kết với người dùng
-    private boolean isBookmarked; // Dùng cho Bookmark
-    // Getters và Setters
+    private boolean isHistory;    // Additional field to manage history
+    private int userId;     // Additional field to link with user
+    private boolean isBookmarked; // Used for Bookmark
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -67,7 +67,7 @@ public class Article {
         this.userId = userId;
     }
 
-    // Getters và Setters
+    // Getters and Setters
     public boolean isBookmarked() {
         return isBookmarked;
     }

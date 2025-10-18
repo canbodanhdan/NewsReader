@@ -27,18 +27,18 @@ public class RegisterActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            // Kiểm tra và đăng ký người dùng mới thông qua SharedPreferences
+            // Validate and register a new user via SharedPreferences
 
             if (!email.isEmpty() && !password.isEmpty()) {
                 new Thread(() -> {
                     boolean ok = Prefs.register(getApplicationContext(), email, password);
                     runOnUiThread(() -> {
-                        Toast.makeText(this, ok ? "Đăng ký thành công" : "Người dùng đã tồn tại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ok ? "Registration successful" : "User already exists", Toast.LENGTH_SHORT).show();
                         if (ok) finish();
                     });
                 }).start();
             } else {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter complete information", Toast.LENGTH_SHORT).show();
             }
         });
     }

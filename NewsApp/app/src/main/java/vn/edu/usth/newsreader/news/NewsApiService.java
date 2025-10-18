@@ -6,21 +6,21 @@ import retrofit2.http.Query;
 
 public interface NewsApiService {
 
-    // Endpoint cho NewsAPI.org - lấy tin từ nhiều nguồn
+    // Endpoint for NewsAPI.org - get news from multiple sources
     @GET("top-headlines")
     Call<NewsResponse> getTopHeadlines(
             @Query("sources") String sources,
             @Query("apiKey") String apiKey
     );
     
-    // Endpoint lấy tin theo quốc gia (thay vì theo nguồn cụ thể)
+    // Endpoint to get news by country (instead of by specific source)
     @GET("top-headlines")
     Call<NewsResponse> getTopHeadlinesByCountry(
             @Query("country") String country,
             @Query("apiKey") String apiKey
     );
     
-    // Endpoint thay thế cho Currents API (miễn phí)
+    // Alternative endpoint for Currents API (free)
     // @GET("latest-news")
     // Call<NewsResponse> getLatestNews(
     //         @Query("apiKey") String apiKey,

@@ -7,12 +7,12 @@
     app:cardCornerRadius="15dp"
     app:cardBackgroundColor="#E8F5E9">
 
-    <!-- Sử dụng FrameLayout để dễ dàng đặt nút Bookmark ở góc trên cùng -->
+    <!-- Use FrameLayout to easily place the Bookmark button at the bottom-right corner -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Nội dung của CardView -->
+        <!-- CardView content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:layout_marginBottom="20dp"
                 android:scaleType="centerCrop"
                 android:background="@drawable/rounded_image" />
-            <!-- Tiêu đề tin tức -->
+            <!-- News title -->
             <TextView
                 android:id="@+id/newsTitle"
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 android:ellipsize="end"
                 android:paddingBottom="4dp" />
 
-            <!-- Mô tả tin tức -->
+            <!-- News description -->
             <TextView
                 android:id="@+id/newsDescription"
                 android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                 android:ellipsize="end"
                 android:paddingBottom="4dp" />
 
-            <!-- Nguồn tin tức -->
+            <!-- News source -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:paddingBottom="8dp" />
 
-                <!-- Hình ảnh tin tức -->
+                <!-- News image -->
 
                 <ImageButton
                     android:id="@+id/bookmarkButton"
@@ -78,7 +78,7 @@
 
         </LinearLayout>
 
-        <!-- Nút Bookmark đặt ở góc trên cùng phải -->
+        <!-- Bookmark button placed at the bottom-right corner -->
 
 
     </FrameLayout>

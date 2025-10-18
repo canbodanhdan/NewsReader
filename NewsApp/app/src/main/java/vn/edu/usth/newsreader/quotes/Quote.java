@@ -2,7 +2,7 @@ package vn.edu.usth.newsreader.quotes;
 
 import com.google.gson.annotations.SerializedName;
 
-// Lớp Quote đại diện cho một câu trích dẫn, bao gồm nội dung và tác giả
+// Quote class represents a quote, including content and author
 public class Quote {
 
     @SerializedName("quote")
@@ -14,11 +14,11 @@ public class Quote {
     @SerializedName("category")
     private String category;
 
-    // Constructor mặc định
+    // Default constructor
     public Quote() {
     }
 
-    // Getter và Setter cho các trường
+    // Getters and Setters for fields
     public String getQuote() {
         return quote != null ? quote : "";
     }

@@ -28,15 +28,15 @@ public class LoginTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Gắn giao diện cho Fragment
+        // Inflate UI for this Fragment
         View view = inflater.inflate(R.layout.fragment_login_tab, container, false);
 
-        // Ánh xạ các thành phần UI
+        // Map UI components
         emailEditText = view.findViewById(R.id.login_email);
         passwordEditText = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.login_button);
 
-        // Thiết lập sự kiện cho nút đăng nhập
+        // Set click handler for login button
         loginButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -46,17 +46,17 @@ public class LoginTabFragment extends Fragment {
                     User user = Prefs.login(requireContext(), email, password);
                     if (user != null) {
                         requireActivity().runOnUiThread(() -> {
-                            Toast.makeText(requireContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
                             startActivity(intent);
                             requireActivity().finish();
                         });
                     } else {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show());
+                        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Incorrect login information", Toast.LENGTH_SHORT).show());
                     }
                 });
             } else {
-                Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Please enter complete information", Toast.LENGTH_SHORT).show();
             }
         });
 

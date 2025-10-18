@@ -32,7 +32,7 @@ public class QuotesFragment extends Fragment {
     private int completedRequests = 0;
     private int totalRequests = 0;
 
-    // Danh sách categories phổ biến và có ý nghĩa
+    // List of popular and meaningful categories
     private final List<String> categories = Arrays.asList(
             "happiness", "inspirational", "love", "success", "wisdom", "friendship"
     );
@@ -102,7 +102,7 @@ public class QuotesFragment extends Fragment {
         List<String> available = new ArrayList<>(categories);
         Collections.shuffle(available);
         
-        // Chọn 3-4 categories ngẫu nhiên
+        // Select 3-4 random categories
         int count = 3 + (int)(Math.random() * 2); // 3-4 categories
         for (int i = 0; i < Math.min(count, available.size()); i++) {
             selected.add(available.get(i));
@@ -114,12 +114,12 @@ public class QuotesFragment extends Fragment {
     private void checkAllRequestsCompleted() {
         if (completedRequests >= totalRequests) {
             if (allQuotes.isEmpty()) {
-                Toast.makeText(getContext(), "Không thể tải câu trích dẫn. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Unable to load quotes. Please try again.", Toast.LENGTH_SHORT).show();
             } else {
-                // Trộn lẫn các quotes
+                // Shuffle the quotes
                 Collections.shuffle(allQuotes);
                 
-                // Giới hạn số lượng hiển thị (tối đa 30 quotes)
+                // Limit the number of displayed items (maximum 30 quotes)
                 if (allQuotes.size() > 30) {
                     allQuotes = allQuotes.subList(0, 30);
                 }

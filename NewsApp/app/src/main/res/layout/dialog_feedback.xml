@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gửi Ý Kiến"
+        android:text="Send Feedback"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -21,17 +21,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện ứng dụng"
+        android:text="We value your feedback to improve the app"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
         android:gravity="center"
         android:layout_marginBottom="8dp" />
 
-    <!-- Vietnamese Input Hint -->
+    <!-- Input hint -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="💡 Mẹo: Nhấn giữ phím Space để chuyển sang bàn phím tiếng Việt"
+        android:text="💡 Tip: Press and hold the Space key to switch keyboard language"
         android:textSize="12sp"
         android:textColor="#FF6B35"
         android:gravity="center"
@@ -50,7 +50,7 @@
             android:id="@+id/feedbackEditText"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:hint="Hãy chia sẻ ý kiến của bạn về ứng dụng..."
+            android:hint="Share your thoughts about the app..."
             android:gravity="top|start"
             android:inputType="textMultiLine|textCapSentences"
             android:maxLines="5"
@@ -71,7 +71,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đánh giá: "
+            android:text="Rating: "
             android:textSize="14sp"
             android:textColor="@android:color/black"
             android:layout_marginEnd="8dp" />
@@ -99,7 +99,7 @@
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hủy"
+            android:text="Cancel"
             android:textColor="@android:color/darker_gray"
             android:background="?android:attr/selectableItemBackground"
             android:layout_marginEnd="12dp"
@@ -109,7 +109,7 @@
             android:id="@+id/btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gửi Ý Kiến"
+            android:text="Send Feedback"
             android:textColor="@android:color/white"
             android:background="@drawable/rounded_button_primary"
             android:paddingStart="24dp"

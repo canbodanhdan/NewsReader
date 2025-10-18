@@ -31,13 +31,13 @@ public class HistoryFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Sử dụng Executor để xử lý logic trong luồng nền (background thread)
-        // Lấy ID của người dùng đang đăng nhập từ cơ sở dữ liệu
-        // Lấy danh sách bài viết trong lịch sử dựa trên userId
-        // Cập nhật giao diện trên Main Thread
-        // Khởi tạo adapter với danh sách bài viết lịch sử
-        // Gắn adapter vào RecyclerView
-        // Trả về View của Fragment
+        // Use an Executor to handle logic on a background thread
+        // Get the logged-in user's ID
+        // Get the history articles by userId
+        // Update UI on the main thread
+        // Initialize the adapter with history articles list
+        // Attach the adapter to the RecyclerView
+        // Return the Fragment's view
         Executors.newSingleThreadExecutor().execute(() -> {
             int userId = Prefs.getLoggedInUserId(requireContext());
             List<Article> historyArticles = new HistoryManager(requireContext(), userId).getHistoryArticles();

@@ -10,53 +10,53 @@ import vn.edu.usth.newsreader.R;
 
 import java.util.List;
 
-// Lớp QuotesAdapter là một adapter cho RecyclerView, dùng để hiển thị danh sách các câu trích dẫn
+// QuotesAdapter class is an adapter for RecyclerView, used to display a list of quotes
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.QuoteViewHolder> {
 
-    // Danh sách các câu trích dẫn sẽ hiển thị
+    // List of quotes to display
     private List<Quote> quotes;
 
-    // Constructor để khởi tạo adapter với danh sách các câu trích dẫn
+    // Constructor to initialize adapter with list of quotes
     public QuotesAdapter(List<Quote> quotes) {
         this.quotes = quotes;
     }
 
     @NonNull
     @Override
-    // Tạo ViewHolder và gán layout item_quote cho từng mục trong danh sách
+    // Create ViewHolder and assign item_quote layout for each item in the list
     public QuoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quote, parent, false);
         return new QuoteViewHolder(view);
     }
 
     @Override
-    // Gán dữ liệu từ đối tượng Quote vào các View trong ViewHolder
+    // Bind data from Quote object to Views in ViewHolder
     public void onBindViewHolder(@NonNull QuoteViewHolder holder, int position) {
         Quote quote = quotes.get(position);
-        holder.quoteTextView.setText(quote.getQuote()); // Gán nội dung câu trích dẫn vào TextView
-        holder.authorTextView.setText("- " + quote.getAuthor()); // Gán tên tác giả vào TextView
+        holder.quoteTextView.setText(quote.getQuote()); // Set quote content to TextView
+        holder.authorTextView.setText("- " + quote.getAuthor()); // Set author name to TextView
     }
 
     @Override
-    // Trả về số lượng mục trong danh sách quotes
+    // Return the number of items in the quotes list
     public int getItemCount() {
         return quotes.size();
     }
 
-    // Lớp ViewHolder dùng để giữ các View của một mục trong danh sách, giúp tái sử dụng View hiệu quả
+    // ViewHolder class used to hold Views of an item in the list, helping to efficiently reuse Views
     public static class QuoteViewHolder extends RecyclerView.ViewHolder {
         TextView quoteTextView;
         TextView authorTextView;
 
-        // Khởi tạo ViewHolder và ánh xạ các View trong item_quote.xml
+        // Initialize ViewHolder and map Views in item_quote.xml
         public QuoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            quoteTextView = itemView.findViewById(R.id.quoteTextView); // TextView hiển thị nội dung câu trích dẫn
-            authorTextView = itemView.findViewById(R.id.authorTextView); // TextView hiển thị tên tác giả
+            quoteTextView = itemView.findViewById(R.id.quoteTextView); // TextView to display quote content
+            authorTextView = itemView.findViewById(R.id.authorTextView); // TextView to display author name
         }
     }
 
-    // Phương thức này cập nhật danh sách quotes và thông báo RecyclerView làm mới dữ liệu
+    // This method updates the quotes list and notifies RecyclerView to refresh data
     public void setQuotes(List<Quote> quotes) {
         this.quotes = quotes;
         notifyDataSetChanged();

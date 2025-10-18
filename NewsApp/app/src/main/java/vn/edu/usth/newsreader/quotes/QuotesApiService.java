@@ -7,7 +7,7 @@ import retrofit2.http.Header;
 
 public interface QuotesApiService {
 
-    // Lấy random quotes (không cần category)
+    // Get random quotes (no category needed)
     @GET("v1/quotes")
     Call<List<Quote>> getQuotes(@Header("X-Api-Key") String apiKey);
 }

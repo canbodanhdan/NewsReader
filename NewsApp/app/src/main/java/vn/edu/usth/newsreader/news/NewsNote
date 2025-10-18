@@ -1,24 +1,24 @@
-Thứ tự đọc:
-dùng news api, lên web xem json nó trả về có dạng như nào
+Reading order:
+use news api, check the web to see what format the json it returns
 
 1. NewsApiService
-Đóng vai trò giao tiếp với API. Xem lớp này để hiểu các endpoint được sử dụng, cách lấy dữ liệu từ API và các phương thức cần gọi.
+Plays the role of communicating with the API. Look at this class to understand the endpoints used, how to get data from API and the methods to call.
 
 2. ApiClient
-Xem lớp này để xem cách Retrofit (hoặc HTTP client khác) được cấu hình và cách NewsApiService được tạo.
-Lớp này thường chứa cấu hình mạng và các cài đặt liên quan như baseUrl.
+Look at this class to see how Retrofit (or other HTTP client) is configured and how NewsApiService is created.
+This class usually contains network configuration and related settings like baseUrl.
 
 3. NewsResponse
-Đây là lớp phản hồi chính từ API. Hiểu lớp này để biết cấu trúc dữ liệu nhận về từ API và cách nó được ánh xạ (mapping) sang các lớp trong ứng dụng.
+This is the main response class from API. Understand this class to know the data structure received from API and how it's mapped to classes in the application.
 
 4. Article
-Lớp con trong phản hồi API (NewsResponse) đại diện cho bài viết (Article)
+Subclass in API response (NewsResponse) representing an article
 
 5. HomeFragment
-Đây là nơi giao diện người dùng chính hiển thị dữ liệu (ví dụ: danh sách tin tức).
+This is where the main user interface displays data (e.g. news list).
 
 6. NewsAdapter
-Lớp Adapter này giúp đổ dữ liệu từ NewsResponse hoặc Article vào RecyclerView trong HomeFragment.
+This Adapter class helps populate data from NewsResponse or Article into RecyclerView in HomeFragment.
 
 7. DetailActivity
-Cuối cùng, lớp này là nơi hiển thị chi tiết của một bài viết cụ thể.
+Finally, this class is where the details of a specific article are displayed.

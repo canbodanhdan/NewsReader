@@ -9,35 +9,35 @@ import java.util.concurrent.Executors;
 
 public class HistoryManager {
 
-    // Biến context để thao tác với SharedPreferences
-    // ID của người dùng hiện tại, dùng để lọc lịch sử theo người dùng
+    // Context variable to work with SharedPreferences
+    // Current user ID, used to filter history by user
     private final Context context;
     private final int userId;
 
-    // Constructor để khởi tạo HistoryManager
-    // - context: Dùng để truy cập SharedPreferences.
-    // - userId: ID của người dùng, giúp quản lý lịch sử riêng của từng người.
+    // Constructor to initialize HistoryManager
+    // - context: Used to access SharedPreferences.
+    // - userId: User ID, helps manage individual user history.
     public HistoryManager(Context context, int userId) {
         this.context = context.getApplicationContext();
         this.userId = userId;
     }
 
-    // Phương thức thêm bài viết vào lịch sử
-    // - article: Đối tượng bài viết cần thêm.
-    // - userId: ID người dùng để gán bài viết vào đúng lịch sử của họ
+    // Method to add article to history
+    // - article: Article object to add.
+    // - userId: User ID to assign article to their correct history
     public void addToHistory(Article article, int userId) {
 
-        // Sử dụng một Executor để chạy tác vụ trong luồng riêng, tránh chặn giao diện chính (Main Thread).
+        // Use an Executor to run tasks in a separate thread, avoiding blocking the main UI thread.
         Executors.newSingleThreadExecutor().execute(() -> {
 
-            // Thêm bài viết vào lịch sử thông qua SharedPreferences
+            // Add article to history through SharedPreferences
 
             Prefs.addToHistory(context, userId, article);
         });
     }
 
-    // Phương thức lấy danh sách các bài viết trong lịch sử
-    // Trả về danh sách các bài viết đã được lưu vào lịch sử của người dùng hiện tại
+    // Method to get list of articles in history
+    // Returns list of articles saved in current user's history
     public List<Article> getHistoryArticles() {
         return Prefs.getHistoryArticles(context, userId);
     }

@@ -70,16 +70,16 @@ public class FeedbackDialog extends DialogFragment {
         btnCancel = view.findViewById(R.id.btnCancel);
         btnSend = view.findViewById(R.id.btnSend);
         
-        // Cài đặt để hỗ trợ tiếng Việt có dấu tốt hơn
+        // Configure input for better accented language support
         feedbackEditText.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
         feedbackEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | 
                                     android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE | 
                                     android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         
-        // Đảm bảo bàn phím hiển thị đúng
+        // Ensure keyboard shows up correctly
         feedbackEditText.requestFocus();
         
-        // Hiển thị bàn phím sau một chút delay
+        // Show keyboard after a short delay
         feedbackEditText.postDelayed(() -> {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm != null) {
@@ -96,17 +96,17 @@ public class FeedbackDialog extends DialogFragment {
             int rating = (int) ratingBar.getRating();
 
             if (feedback.isEmpty()) {
-                Toast.makeText(getContext(), "Vui lòng nhập ý kiến của bạn", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter your feedback", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Gửi email với feedback
+            // Send email with feedback
             sendFeedbackEmail(feedback, rating);
             
-            // Thông báo thành công
-            Toast.makeText(getContext(), "Cảm ơn bạn đã gửi feedback!", Toast.LENGTH_SHORT).show();
+            // Success notification
+            Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
             
-            // Gọi callback nếu có
+            // Invoke callback if present
             if (listener != null) {
                 listener.onFeedbackSent(feedback, rating);
             }
@@ -119,33 +119,33 @@ public class FeedbackDialog extends DialogFragment {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/plain; charset=UTF-8");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"feedback@newsapp.com"});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback - NewsApp (Đánh giá: " + rating + "/5 sao)");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback - NewsApp (Rating: " + rating + "/5 stars)");
         
-        // Tạo nội dung email đẹp mắt với UTF-8 encoding
+        // Create a nicely formatted email body with UTF-8 encoding
         String emailBody = createEmailBody(feedback, rating);
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
         
         try {
-            startActivity(Intent.createChooser(emailIntent, "Gửi feedback qua email"));
+            startActivity(Intent.createChooser(emailIntent, "Send feedback via email"));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getContext(), "Không tìm thấy ứng dụng email nào", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No email apps found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private String createEmailBody(String feedback, int rating) {
         StringBuilder body = new StringBuilder();
-        body.append("Xin chào đội ngũ phát triển NewsApp,\n\n");
-        body.append("Tôi muốn gửi feedback về ứng dụng:\n\n");
+        body.append("Hello NewsApp team,\n\n");
+        body.append("I would like to share feedback about the app:\n\n");
         body.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-        body.append("📱 ĐÁNH GIÁ: ").append(rating).append("/5 ⭐\n");
+        body.append("📱 RATING: ").append(rating).append("/5 ⭐\n");
         body.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-        body.append("💬 Ý KIẾN:\n");
+        body.append("💬 FEEDBACK:\n");
         body.append(feedback).append("\n\n");
         body.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-        body.append("📧 Email này được gửi tự động từ ứng dụng NewsApp\n");
-        body.append("🕒 Thời gian: ").append(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date())).append("\n");
+        body.append("📧 This email was sent automatically from the NewsApp\n");
+        body.append("🕒 Time: ").append(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date())).append("\n");
         body.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-        body.append("Cảm ơn bạn đã sử dụng NewsApp! ❤️");
+        body.append("Thank you for using NewsApp! ❤️");
         
         return body.toString();
     }

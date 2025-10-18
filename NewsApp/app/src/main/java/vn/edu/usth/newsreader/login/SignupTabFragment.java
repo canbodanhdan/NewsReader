@@ -25,15 +25,15 @@ public class SignupTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Gắn giao diện cho Fragment
+        // Inflate UI for this Fragment
         View view = inflater.inflate(R.layout.fragment_signup_tab, container, false);
 
-        // Ánh xạ các thành phần UI
+        // Map UI components
         emailEditText = view.findViewById(R.id.signup_email);
         passwordEditText = view.findViewById(R.id.signup_password);
         signup_button = view.findViewById(R.id.signup_button);
 
-        // Thiết lập sự kiện cho nút đăng ký
+        // Set click handler for signup button
         signup_button.setOnClickListener(v -> {
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();

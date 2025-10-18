@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
     protected void onStart() {
         super.onStart();
 
-        // Truy vấn người dùng hiện tại từ SharedPreferences
+        // Query the current user from SharedPreferences
         Executors.newSingleThreadExecutor().execute(() -> {
             User currentUser = Prefs.getLoggedInUser(this);
 
             if (currentUser == null || !currentUser.isLoggedIn()) {
-                // Chuyển hướng về LoginActivity nếu chưa đăng nhập
+                // Redirect to LoginActivity if not logged in
                 runOnUiThread(() -> {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Kiểm tra người dùng đã đăng nhập
+        // Check if user is logged in
         checkIfUserLoggedIn();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -71,27 +71,27 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Thiết lập Toolbar
+        // Set up Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("NewsApp");
 
-        // Thiết lập DrawerLayout và NavigationView
+        // Set up DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
-        // Hiển thị nút mở navigation
+        // Show navigation open button
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_24); // Thay thế bằng icon menu của bạn
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_24); // Replace with your menu icon
         }
 
-        // Xử lý sự kiện khi chọn các item trong Navigation Drawer
+        // Handle Navigation Drawer item selections
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 
             if (itemId == R.id.nav_tin_moi_nhat) {
-                navController.popBackStack(R.id.navigation_new, false); // Điều hướng đến HomeFragment nếu đang ở fragment khác
+                navController.popBackStack(R.id.navigation_new, false); // Navigate to HomeFragment if on another fragment
             } else if (itemId == R.id.nav_gui_y_kien) {
                 showFeedbackDialog();
             } else if (itemId == R.id.nav_thoat) {
@@ -103,15 +103,15 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
                 navController.navigate(R.id.bookmarkFragment);
             }
 
-            // Đóng Navigation Drawer sau khi chọn
+            // Close Navigation Drawer after selection
             drawerLayout.closeDrawers();
             return true;
         });
     }
 
     /**
-     * Kiểm tra xem người dùng đã đăng nhập chưa.
-     * Nếu chưa đăng nhập, chuyển hướng tới màn hình LoginActivity.
+     * Check whether the user is logged in.
+     * If not logged in, redirect to LoginActivity.
      */
     private void checkIfUserLoggedIn() {
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
 
 
     /**
-     * Đăng xuất người dùng hiện tại.
-     * Xóa trạng thái đăng nhập trong Room Database và chuyển hướng về LoginActivity.
+     * Sign out the current user.
+     * Clear login state and redirect to LoginActivity.
      */
     private void signOutUser() {
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -144,9 +144,7 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
 
 
 
-    /**
-     * Hiển thị dialog feedback.
-     */
+    /** Show the feedback dialog. */
     private void showFeedbackDialog() {
         FeedbackDialog feedbackDialog = FeedbackDialog.newInstance();
         feedbackDialog.show(getSupportFragmentManager(), "FeedbackDialog");
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements FeedbackDialog.Fe
 
     @Override
     public void onFeedbackSent(String feedback, int rating) {
-        // Có thể thêm logic xử lý sau khi gửi feedback thành công
+        // Optional: handle post-feedback actions
         Log.d("MainActivity", "Feedback sent: " + feedback + ", Rating: " + rating);
     }
 
