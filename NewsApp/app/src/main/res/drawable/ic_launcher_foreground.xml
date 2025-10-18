@@ -4,52 +4,98 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- Newspaper icon for NewsApp -->
-    <!-- Main newspaper body -->
+    <!-- Modern News App Icon -->
+    <!-- Main newspaper/document -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M20,25 L88,25 L88,85 L20,85 Z" />
+        android:pathData="M25,20 L83,20 L83,88 L25,88 Z" />
     
-    <!-- Newspaper fold line -->
+    <!-- Paper shadow/fold effect -->
     <path
-        android:fillColor="#E0E0E0"
-        android:pathData="M20,25 L88,25 L88,35 L20,35 Z" />
+        android:fillColor="#F5F5F5"
+        android:pathData="M25,20 L83,20 L83,30 L25,30 Z" />
     
-    <!-- Headlines -->
+    <!-- Header section with gradient -->
     <path
-        android:fillColor="#333333"
-        android:pathData="M25,40 L83,40 L83,42 L25,42 Z" />
-    <path
-        android:fillColor="#333333"
-        android:pathData="M25,45 L75,45 L75,47 L25,47 Z" />
-    <path
-        android:fillColor="#333333"
-        android:pathData="M25,50 L80,50 L80,52 L25,52 Z" />
+        android:fillColor="#E3F2FD"
+        android:pathData="M25,20 L83,20 L83,35 L25,35 Z" />
     
-    <!-- Article text lines -->
+    <!-- Main headline (bold) -->
     <path
-        android:fillColor="#666666"
-        android:pathData="M25,58 L85,58 L85,59 L25,59 Z" />
+        android:fillColor="#1976D2"
+        android:pathData="M30,25 L78,25 L78,28 L30,28 Z" />
     <path
-        android:fillColor="#666666"
-        android:pathData="M25,62 L82,62 L82,63 L25,63 Z" />
-    <path
-        android:fillColor="#666666"
-        android:pathData="M25,66 L78,66 L78,67 L25,67 Z" />
-    <path
-        android:fillColor="#666666"
-        android:pathData="M25,70 L80,70 L80,71 L25,71 Z" />
+        android:fillColor="#1976D2"
+        android:pathData="M30,30 L75,30 L75,32 L30,32 Z" />
     
-    <!-- News icon in top corner -->
+    <!-- Sub headline -->
     <path
-        android:fillColor="#2196F3"
-        android:pathData="M67,22 A8,8 0 1,1 67,38 A8,8 0 1,1 67,22 Z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M70,30 L75,25 L80,30 L75,35 Z" />
+        android:fillColor="#424242"
+        android:pathData="M30,37 L80,37 L80,39 L30,39 Z" />
     
-    <!-- Bottom corner accent -->
+    <!-- Article content lines -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M30,45 L85,45 L85,47 L30,47 Z" />
+    <path
+        android:fillColor="#757575"
+        android:pathData="M30,50 L82,50 L82,52 L30,52 Z" />
+    <path
+        android:fillColor="#757575"
+        android:pathData="M30,55 L80,55 L80,57 L30,57 Z" />
+    <path
+        android:fillColor="#757575"
+        android:pathData="M30,60 L78,60 L78,62 L30,62 Z" />
+    
+    <!-- News icon in top-right corner -->
     <path
         android:fillColor="#FF5722"
-        android:pathData="M75,75 L88,75 L88,85 L75,85 Z" />
+        android:pathData="M70,25 L85,25 L85,40 L70,40 Z" />
+    
+    <!-- News icon symbol -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,28 L83,28 L83,30 L72,30 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,32 L80,32 L80,34 L72,34 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,36 L82,36 L82,38 L72,38 Z" />
+    
+    <!-- Reading glasses icon -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M35,70 A8,8 0 1,1 35,86 A8,8 0 1,1 35,70 Z" />
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M50,70 A8,8 0 1,1 50,86 A8,8 0 1,1 50,70 Z" />
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M42,78 L43,78 L43,79 L42,79 Z" />
+    
+    <!-- Bottom accent -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M25,80 L83,80 L83,88 L25,88 Z" />
+    
+    <!-- Modern dot pattern -->
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M30,82 A1,1 0 1,1 30,84 A1,1 0 1,1 30,82 Z" />
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M40,82 A1,1 0 1,1 40,84 A1,1 0 1,1 40,82 Z" />
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M50,82 A1,1 0 1,1 50,84 A1,1 0 1,1 50,82 Z" />
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M60,82 A1,1 0 1,1 60,84 A1,1 0 1,1 60,82 Z" />
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M70,82 A1,1 0 1,1 70,84 A1,1 0 1,1 70,82 Z" />
+    <path
+        android:fillColor="#E8F5E8"
+        android:pathData="M80,82 A1,1 0 1,1 80,84 A1,1 0 1,1 80,82 Z" />
 </vector>
