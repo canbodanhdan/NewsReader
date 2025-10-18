@@ -29,15 +29,6 @@ public class ApiConfig {
     // API Key for Quotes API (API Ninjas)
     public static final String QUOTES_API_KEY = "C0mhKf462ZIk6QO4XJ0YiQ==Nd5TgCw0OyPefyJH";
     
-    // ===== GUIDE TO GET NEW API KEY =====
-    /*
-    1. Visit: https://newsapi.org/
-    2. Register for a free account
-    3. Go to Dashboard to get API key
-    4. Replace "YOUR_NEW_API_KEY_HERE" with actual API key
-    5. Rebuild the application
-    */
-    
     // ===== FREE ALTERNATIVE APIs =====
     /*
     If NewsAPI.org is not working, you can use:

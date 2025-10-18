@@ -1,13 +1,13 @@
 # NewsApp - Android News Reader
 
-A modern Android news reader application with Vietnamese language support and beautiful UI.
+A modern Android news reader application with beautiful UI and international accessibility.
 
 ## 🚀 Features
 
 - **📰 News Reading**: Browse latest news from multiple sources
 - **🔄 Refresh Button**: Quick refresh with auto-scroll to top
 - **⭐ Feedback System**: Beautiful feedback dialog with 5-star rating
-- **🇻🇳 Vietnamese Support**: Full Vietnamese language support with diacritics
+- **🌍 International Support**: Full English language support with international accessibility
 - **💾 Local Storage**: Uses SharedPreferences for data persistence
 - **🔖 Bookmarks**: Save and manage favorite articles
 - **📚 History**: Track reading history
@@ -45,7 +45,7 @@ A modern Android news reader application with Vietnamese language support and be
 
 - Modern UI with dark theme
 - Refresh button in header
-- Vietnamese feedback dialog
+- International feedback dialog
 - Smooth animations and transitions
 
 ## 🏗️ Architecture
@@ -82,4 +82,4 @@ For support, email feedback@newsapp.com or create an issue in this repository.
 
 ---
 
-Made with ❤️ for Vietnamese users
+Made with ❤️ for international users

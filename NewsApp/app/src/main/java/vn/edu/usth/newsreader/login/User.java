@@ -6,7 +6,7 @@ public class User {
     private String email;
     private String password;
     private boolean isLoggedIn;
-    // Constructor, Getters và Setters
+    // Constructor, Getters and Setters
     public User(String email, String password, boolean isLoggedIn) {
         this.email = email;
         this.password = password;
